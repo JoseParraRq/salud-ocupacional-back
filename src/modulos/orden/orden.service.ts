@@ -38,7 +38,7 @@ export class OrdenService {
       result.input('typeOrder', sql.VarChar(10), createOrderDTO.typeOrder);
       result.input('userId', sql.Int, createOrderDTO.userId);
       result.input('prestadorId', sql.Int, createOrderDTO.prestadorId);
-      result.input('Accion', sql.Char(1), 'C');
+      
 
       //aqui agregue el manejo de la tvp de los cups
       const tvp_cups = new sql.Table('CupsType');
@@ -51,7 +51,7 @@ export class OrdenService {
       });
 
       result.input('cups', tvp_cups);
-
+      result.input('Accion', sql.Char(1), 'C');
       // Ejecutar el procedimiento almacenado
       const resultado = await result.execute('sp_cli_order');
       console.log(resultado?.recordsets[0])
@@ -216,5 +216,23 @@ export class OrdenService {
             status: false,
         };
     }
+}
+
+async getOrdenesAproved() {
+  try {
+    const conn = await conexion.getConnection('contratos');
+    const pool = conn; // El `conn` ya es el pool de conexión.
+    const result = await pool.request(); // Crea una solicitud SQL usando el pool
+    result.input('Accion', sql.VarChar(50), 'Orden_Aprobadas');
+    const resultado = await result.execute('sp_cli_order');
+    return {
+      mensaje: 'Procedimiento ejecutado correctamente',
+      descripcion: 'Se ha listado exitosamente',
+      resultado: resultado.recordsets,
+      status: true,
+    };
+  } catch (error) {
+    console.log(error);
+  }
 }
 }

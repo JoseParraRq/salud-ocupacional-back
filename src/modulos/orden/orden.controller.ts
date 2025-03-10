@@ -28,6 +28,11 @@ export class OrderController {
     return this.ordenService.getById(id);
   }
 
+  @Get('getAproved')
+  async getAproved() {
+    return this.ordenService.getOrdenesAproved();
+  }
+
   @Patch()
   async editOrder(@Body() createOrderDTO: CreateOrderDTO) {
       return this.ordenService.EditOrden(createOrderDTO);
