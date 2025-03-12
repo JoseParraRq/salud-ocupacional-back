@@ -28,3 +28,39 @@ export class SendOrdenToCompanyDto {
   @IsNotEmpty()
 	Url : string;
 }
+
+export class SendCertificateToCompanyDto { 
+  @ApiProperty()
+  @IsEmail()
+  @MinLength(4)
+  @MaxLength(250)
+  @IsNotEmpty()
+	Email : string;
+
+  @ApiProperty()
+  @IsString()
+  @MinLength(4)
+  @MaxLength(250)
+  @IsNotEmpty()
+	NombreResponsable : string;
+
+  @ApiProperty()
+  @IsString()
+  @MinLength(4)
+  @MaxLength(250)
+  @IsNotEmpty()
+	NombreUsuarioAsigna : string;
+
+  @ApiProperty()
+  @IsString()
+  @MinLength(4)
+  @MaxLength(250)
+  @IsNotEmpty()
+	NombrePersona : string;
+
+
+  @ApiProperty()
+  @IsUrl()
+  @IsNotEmpty()
+	Url : string;
+}

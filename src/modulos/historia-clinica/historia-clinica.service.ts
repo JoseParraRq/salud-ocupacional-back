@@ -51,4 +51,23 @@ export class HistoriaClinicaService {
             console.log(error)
         }
     }
+
+    async getAspirantsAvaliableForHistory(){
+        try {
+            console.log("entre aqui")
+            const conn = await conexion.getConnection('contratos')
+            const pool = conn; // El `conn` ya es el pool de conexión.
+            const result = await pool.request()  // Crea una solicitud SQL usando el pool
+            result.input('Accion', sql.VarChar, 'listar_aspirantes');
+            const resultado = await result.execute('sp_historia_clinica_aspirante');
+            return {
+                mensaje: 'Procedimiento ejecutado correctamente',
+                descripcion: 'Se ha listado exitosamente',
+                resultado: resultado.recordsets,
+                status: true,
+            };
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }

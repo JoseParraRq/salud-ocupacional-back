@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 
 config(); // Cargar las variables de entorno
 
-const getConnection = async (coon:string) => {
+const getConnection = async (coon?: string) => {
   const config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -13,7 +13,8 @@ const getConnection = async (coon:string) => {
     requestTimeout: 300000,
     options: {
       encrypt: parseInt(process.env.DB_ENCRYPT) === 1 ? true : false, // for azure
-      trustServerCertificate: parseInt(process.env.DB_TRUST_CERTIFICATE) === 1 ? true : false, // change to true for local dev / self-signed certs
+      trustServerCertificate:
+        parseInt(process.env.DB_TRUST_CERTIFICATE) === 1 ? true : false, // change to true for local dev / self-signed certs
     },
     pool: {
       max: 100,
@@ -23,7 +24,7 @@ const getConnection = async (coon:string) => {
   };
 
   try {
-    const pool = await sql.connect(config);  // Realizamos la conexión
+    const pool = await sql.connect(config); // Realizamos la conexión
     console.log('Conexión exitosa a la base de datos');
     return pool;
   } catch (error) {

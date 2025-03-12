@@ -50,6 +50,7 @@ async function bootstrap() {
     .addTag('Fondo de Pensiones')
     .addTag('Estado Civil')
     .addTag('Grupo Sanguíneo')
+    .addTag('certificados-medicos')
     .build();
 
     const documentFactory = () => SwaggerModule.createDocument(app, config);

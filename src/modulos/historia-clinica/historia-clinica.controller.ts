@@ -27,4 +27,13 @@ export class HistoriaClinicaController {
             throw new BadRequestException(error.message);
         }
     }
+
+    @Get('/aspirantes/validos')
+    async getAspirantsAvaliableForHistory() {
+        try {
+            return await this.historiaClinicaService.getAspirantsAvaliableForHistory();
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
 }

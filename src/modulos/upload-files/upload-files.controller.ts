@@ -72,4 +72,36 @@ export class UploadFilesController {
     };
   }
 
+  @ApiConsumes('multipart/form-data')
+  @Post("uploadFile/certificados-medicos")
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({ 
+        destination: (request, file, cb) => {
+          const path = './src/uploads/certificados/' + (new Date(Date.now()).toLocaleDateString()).replace('/', '_').replace('/', '_') + '/'
+          if (!fs.existsSync(path)){
+            fs.mkdirSync(path, { recursive: true })
+          }
+          return cb(null, `${path}`)
+        },
+        filename: editFileName
+      })
+    })
+  )
+  uploadFileCertificados(@UploadedFile() file: Express.Multer.File) {    
+    return {
+        mensaje: 'Procedimiento ejecutado correctamente',
+        descripcion: 'Se ha listado exitosamente',
+        resultado:   `${process.env.URL_API_PRODUCTION}/upload-files/viewCertificado/` + (new Date(Date.now()).toLocaleDateString()).replace('/', '_').replace('/', '_') + '/' + file.filename,
+        status: true,
+    };
+  }
+
+  @Get("viewCertificado/:date/:filename")
+  async viewFileCertificado(@Param('filename') filename: string, @Param('date') date: string, @Res() res: Response) {
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.sendFile(filename, { root: './src/uploads/certificados/' + date })
+  }
+
 }
